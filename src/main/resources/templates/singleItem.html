@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Single Item</title>
+</head>
+<body>
+<a href="/items">Back</a>
+<h2 th:text="${item.title}"></h2>
+<p th:text="${item.description}"></p>
+<span th:if="${item.category != null}" th:text="${item.category.name}"></span>
+
+<form action="/comments/add" method="post">
+
+  <textarea name="comment"></textarea><br>
+    <input type="hidden" name="item_id" th:value="${item.id}" />
+  <input type="submit" value="ok">
+</form>
+<table border="1px">
+  <tr>
+    <th>id</th>
+    <th>comment</th>
+    <th>action</th>
+  </tr>
+  </tr>
+  <tr th:each="comment : ${comments}" th:if="${comment.item.id == item.id}">
+    <td th:text="${comment.id}"></td>
+    <td th:text="${comment.comment}"></td>
+    <td><a th:href="@{/comments/remove(id=${comment.id})}">Remove</a></td>
+  </tr>
+</table>
+
+</body>
+</html>
